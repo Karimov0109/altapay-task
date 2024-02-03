@@ -1,0 +1,40 @@
+server:
+  port: ${TASK_SERVER_PORT}
+
+spring:
+  config:
+    import: optional:file:.env[.properties]
+
+  application:
+    name: task
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${TASK_JDBC_URL}/${TASK_JDBC_DB}
+    username: ${TASK_JDBC_USERNAME}
+    password: ${TASK_JDBC_PASSWORD}
+
+  sql:
+    init:
+      mode: always
+
+  jackson:
+    default-property-inclusion: non_null
+  main:
+    allow-bean-definition-overriding: true
+
+  jpa:
+    show-sql: off
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    generate-ddl: on
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        enable_lazy_load_no_trans: true
